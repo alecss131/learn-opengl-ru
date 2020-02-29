@@ -357,7 +357,7 @@ glBindVertexArray(0);
 
 ![](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%204/5.png)
 
-Исходный код можно найти [тут](http://learnopengl.com/code_viewer.php?code=getting-started/hellotriangle).
+Исходный код можно найти [тут](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%204/src1.cpp).
 
 Если ваш результат отличается то, вероятно, вы где-то ошиблись. Сравните ваш код с представленным выше исходным кодом.
 
@@ -463,7 +463,7 @@ glBindVertexArray(0);
 > **Режим Wireframe**
 > Для того чтобы отрисовать ваши треугольники в этом режиме, укажите OpenGL, как отрисовывать примитивы с помощью `glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)`. Первый аргумент указываем, что мы хотим отрисовывать переднюю и заднюю части всех треугольников, а второй аргумент, что мы хотим отрисовывать только линии. Для того, чтобы вернуться к начальной конфигурации — вызовите `glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)`.
 
-Если у вас возникли какие-либо проблемы, пробегитесь по уроку, возможно вы что-то забыли. Также вы можете сверится с [исходным кодом](http://learnopengl.com/code_viewer.php?code=getting-started/hellotriangle2).
+Если у вас возникли какие-либо проблемы, пробегитесь по уроку, возможно вы что-то забыли. Также вы можете сверится с [исходным кодом](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%204/src2.cpp).
 
 Если у вас все получилось — то поздравляю, вы только что прошли через одну из самых сложных частей изучения современного OpenGL: вывод первого треугольника. Эта часть такая сложная, поскольку требует определенный набор знаний перед тем как появится возможно отрисовать первый треугольник. Благо мы уже прошли через это и последующие уроки должны быть проще.
 
@@ -478,6 +478,6 @@ glBindVertexArray(0);
 
 Для закрепления изученного предложу несколько упражнений:
 
-1. Попробуйте отрисовать 2 треугольника один за другим с помощью glDrawArrays с помощью добавления бОльшего количества вершин. [Решение](http://learnopengl.com/code_viewer.php?code=getting-started/hello-triangle-exercise1)
-2. Создайте 2 треугольника с использованием 2 различных VAO и VBO. [Решение](http://learnopengl.com/code_viewer.php?code=getting-started/hello-triangle-exercise2)
-3. Создайте второй фрагментный шейдеры и чтобы он выводил желтый цвет. И сделайте так, чтобы второй треугольник был желтого цвета. [Решение](http://learnopengl.com/code_viewer.php?code=getting-started/hello-triangle-exercise3)
+1. Попробуйте отрисовать 2 треугольника один за другим с помощью glDrawArrays с помощью добавления бОльшего количества вершин. [Решение](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%204/exercise1.cpp)
+2. Создайте 2 треугольника с использованием 2 различных VAO и VBO. [Решение](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%204/exercise2.cpp)
+3. Создайте второй фрагментный шейдеры и чтобы он выводил желтый цвет. И сделайте так, чтобы второй треугольник был желтого цвета. [Решение](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%204/exercise3.cpp)
