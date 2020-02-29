@@ -199,6 +199,6 @@ glClear(GL_COLOR_BUFFER_BIT);
 
 ![](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%203/2.png)
 
-Полный исходный код урока можно найти [здесь](http://learnopengl.com/code_viewer.php?code=getting-started/hellowindow2).
+Полный исходный код урока можно найти [здесь](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%203/src.cpp).
 
 Теперь у нас есть все, чтобы начать заполнять игровой цикл вызовами функций отрисовки, но мы прибережем это для следующего урока.
