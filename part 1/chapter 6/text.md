@@ -339,7 +339,7 @@ glBindVertexArray(0);
 
 Для лучшего усвоения материала прежде чем приступать к следующему уроку взгляните на следующие упражнения.
 
-1. Добейтесь того, чтобы **только** вершинный шейдер был перевернут, с помощью изменения фрагментного шейдера. [Решение](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%206/exercise1.vs)
+1. Добейтесь того, чтобы **только** вершинный шейдер был перевернут, с помощью изменения фрагментного шейдера. [Решение](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%206/exercise1.fs)
 2. Поэкспериментируйте с другим методам натягивания текстур, изменяя текстурные координаты в пределах от **0.0f** до **2.0f** вместо **0.0f** до **1.0f**. Проверьте, сможете ли вы отобразить 4 улыбающихся рожицы на одном контейнере. [Решение](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%206/exercise2.cpp), [Результат](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%206/textures_exercise2.png)
 3. Попробуйте отобразить только центральные пиксели текстуры на четырехугольнике так, чтобы единичные пиксели были видны при изменении текстурных координат. Попробуйте установить режим фильтрации *GL_NEAREST* для того, чтобы было видно пиксели более четко. [Решение](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%206/exercise3.cpp).
 4. Используйте uniform переменную в качестве 3 параметра функции **mix** для изменения коэффициента смешивания двух текстур на лету. Используйте кнопки вверх и вниз для регулирования смешивания. [Решение](hhttps://github.com/loginmen/learnopengl/blob/master/part%201/chapter%206/exercise4.cpp), [Фрагментный шейдер](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%206/exercise4.fs)
