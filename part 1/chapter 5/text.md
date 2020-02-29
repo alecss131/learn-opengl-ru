@@ -418,10 +418,10 @@ while(...)
 
 В данном примере мы поместили наш вершинный шейдер в файл shader.vs, а фрагментный шейдер в файл shader.frag. В принципе, вы можете задать собственную конвенцию именования файлов, особой роли это не сыграет, но делайте это обдуманно, сохраняя семантику.
 
-Исходные коды [программы с классом шейдера](http://learnopengl.com/code_viewer.php?code=getting-started/shaders-using-object), [класса шейдера](http://learnopengl.com/code_viewer.php?type=header&code=shader), [вершинного шейдера](http://learnopengl.com/code_viewer.php?type=vertex&code=getting-started/basic) и [фрагментного шейдера](http://learnopengl.com/code_viewer.php?type=fragment&code=getting-started/basic)
+Исходные коды [программы с классом шейдера](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%205/src1.cpp), [класса шейдера](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%205/src2.cpp), [вершинного шейдера](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%205/src.vs) и [фрагментного шейдера](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%205/src.fs)
 
 ## Упражнения:
 
-1. Модифицируйте вершинный шейдер так, чтобы в результате треугольник перевернулся: [решение](http://learnopengl.com/code_viewer.php?code=getting-started/shaders-exercise1).
-2. Передайте горизонтальное смещение с помощью формы и переместите треугольник к правой стороне окна с помощью вершинного шейдера: [решение](http://learnopengl.com/code_viewer.php?code=getting-started/shaders-exercise2).
-3. Передайте фрагментному шейдеру позицию вершины и установите значение цвета равное значению позиции (посмотрите, как позиция вершины интерполируется по всему треугольнику). После того, как сделаете это, постарайтесь ответить на вопрос, почему нижняя левая часть треугольника черная?: [решение](http://learnopengl.com/code_viewer.php?code=getting-started/shaders-exercise3)
+1. Модифицируйте вершинный шейдер так, чтобы в результате треугольник перевернулся: [решение](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%205/exercise1.vs).
+2. Передайте горизонтальное смещение с помощью формы и переместите треугольник к правой стороне окна с помощью вершинного шейдера: [решение](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%205/exercise2.cpp).
+3. Передайте фрагментному шейдеру позицию вершины и установите значение цвета равное значению позиции (посмотрите, как позиция вершины интерполируется по всему треугольнику). После того, как сделаете это, постарайтесь ответить на вопрос, почему нижняя левая часть треугольника черная?: [решение](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%205/exercise3.vs)
