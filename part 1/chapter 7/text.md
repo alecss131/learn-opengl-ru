@@ -365,15 +365,15 @@ trans = glm::rotate(trans,(GLfloat)glfwGetTime() * 50.0f, glm::vec3(0.0f, 0.0f, 
 
 Если вы все сделали правильно — то вы получите что-то вроде этого:
 
-[mp4](https://learnopengl.com/video/getting-started/transformations.mp4)
+[mp4](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%207/transformations.mp4)
 
 Вот и все. Сдвинутый контейнер, поворачивающийся с течением времени, и все это выполнено с помощью одной матрицы трансформации! Теперь вы можете видеть, почему матрицы настолько сильны в графическом мире. Мы можем определить безграничное количество трансформаций и совмещать их в одну матрицу для последующего повторного использования. Использование подобных трансформаций в вершинном шейдере позволяет нам не менять вершинные данные, что сохраняет нам процессорное время, поскольку нам не требуется отправлять данные в буфер.
 
-Если вам не удалось получить правильный результат или вы где-то застряли — то взгляните на [исходный код](https://learnopengl.com/code_viewer.php?code=getting-started/transformations) вместе с [вершинным](https://learnopengl.com/code_viewer.php?code=getting-started/transformations&amp;type=vertex) и [фрагментным](https://learnopengl.com/code_viewer.php?code=getting-started/transformations&amp;type=fragment) шейдерами.
+Если вам не удалось получить правильный результат или вы где-то застряли — то взгляните на [исходный код](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%207/src1.cpp) вместе с [вершинным](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%207/src1.vs) и [фрагментным](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%207/src1.fs) шейдерами.
 
 В следующем уроке мы обсудим как использовать матрицы для определения различных координатных пространств для наших вершин. Это будет новым шагом в мир 3D графики в реальном времени!
 
 ## Упражнения
 
-1. Поменяйте в последней трансформации последовательности действий, посмотрите что из этого получится, попробуйте обосновать, почему результат именно такой. [Решение](https://learnopengl.com/code_viewer.php?code=getting-started/transformations-exercise1)
-2. Попробуйте нарисовать еще один контейнер с помощью вызова **glDrawElements**, но только разместите этот контейнер в другом месте с помощью другой трансформации. Пусть он будет находиться в правом верхнем углу и вместо вращения — он менял свой размер (здесь можно применить функцию sin): [Решение](https://learnopengl.com/code_viewer.php?code=getting-started/transformations-exercise2)
+1. Поменяйте в последней трансформации последовательности действий, посмотрите что из этого получится, попробуйте обосновать, почему результат именно такой. [Решение](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%207/exercise1.cpp)
+2. Попробуйте нарисовать еще один контейнер с помощью вызова **glDrawElements**, но только разместите этот контейнер в другом месте с помощью другой трансформации. Пусть он будет находиться в правом верхнем углу и вместо вращения — он менял свой размер (здесь можно применить функцию sin): [Решение](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%207/exercise2.cpp)
