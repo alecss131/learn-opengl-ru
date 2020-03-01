@@ -221,13 +221,13 @@ glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
 ![](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%208/9.png)
 
-Это и правда похоже на 3D-плоскость, которая покоится на каком-то воображаемом полу. Если вы не получили такого же результата, проверьте полный [исходный код](https://learnopengl.com/code_viewer.php?code=getting-started/coordinate_systems), [вершинный шейдер](https://learnopengl.com/code_viewer.php?code=getting-started/transform&type=vertex) и [фрагментный шейдер](https://learnopengl.com/code_viewer.php?code=getting-started/transform&type=fragment).
+Это и правда похоже на 3D-плоскость, которая покоится на каком-то воображаемом полу. Если вы не получили такого же результата, проверьте полный [исходный код](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%208/src1.cpp), [вершинный шейдер](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%208/src1.vs) и [фрагментный шейдер](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%208/src1.fs).
 
 ## Больше 3D
 
 До сих пор мы работали с 2D-плоскостью, но в 3D-пространстве, поэтому давайте совершим небольшое приключение и расширим нашу 2D-плоскость до 3D-куба.
 
-Для отображения куба нам в общей сложности потребуется 36 вершин \(6 сторон * по 2 треугольника * по 3 вершины в каждом\). Набрать 36 вершин это довольно много, так что вы можете взять их здесь. Обратите внимание, что для получения результирующего цвета фрагментов мы будем пользоваться только текстурой, поэтому значения цвета вершин мы пропускаем.
+Для отображения куба нам в общей сложности потребуется 36 вершин \(6 сторон * по 2 треугольника * по 3 вершины в каждом\). Набрать 36 вершин это довольно много, так что вы можете взять их [здесь](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%208/src2.cpp). Обратите внимание, что для получения результирующего цвета фрагментов мы будем пользоваться только текстурой, поэтому значения цвета вершин мы пропускаем.
 
 > Удаление из массива вершин атрибутов цвета меняет размер "шага" между вершинами, поэтому необходимо исправить этот параметр в вызовах функции glVertexAttribPointer:
 > ```cpp
@@ -252,7 +252,7 @@ glDrawArrays(GL_TRIANGLES, 0, 36);
 
 Вы должны получить что-то похожее на это:
 
-[mp4](https://learnopengl.com/video/getting-started/coordinate_system_no_depth.mp4)
+[mp4](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%208/coordinate_system_no_depth.mp4)
 
 Объект немного похож на куб, но что-то с ним не так. Некоторые стороны куба рисуются поверх других его сторон. Это происходит потому, что, когда OpenGL визуализирует ваш куб треугольник-за-треугольником, он перезаписывает находящиеся в буфере кадров пиксели, несмотря на его содержимое и то, что уже было нарисовано в нём до этого. Из-за этого некоторые треугольники рисуются один поверх другого, хотя они не должны перекрывать друг друга.
 
@@ -276,9 +276,9 @@ glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 Давайте повторно запустим нашу программу и посмотрим, выполняет ли теперь OpenGL проверку глубины:
 
-[mp4](https://learnopengl.com/video/getting-started/coordinate_system_depth.mp4)
+[mp4](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%208/coordinate_system_depth.mp4)
 
-Вот и всё! Наш куб полностью текстурирован, с правильной проверкой глубины, еще и вращается. [Здесь](https://learnopengl.com/code_viewer.php?code=getting-started/coordinate_systems_with_depth) исходный код для проверки.
+Вот и всё! Наш куб полностью текстурирован, с правильной проверкой глубины, еще и вращается. [Здесь](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%208/src3.cpp) исходный код для проверки.
 
 ## Больше кубиков!
 
@@ -322,11 +322,11 @@ glBindVertexArray(0);
 
 ![](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%208/10.png)
 
-Отлично! Похоже, наш контейнер нашел несколько похожих на него друзей. Если вы застряли, то прежде чем продолжить посмотрите в чем может быть проблема и сравните свой код с [исходным кодом](https://learnopengl.com/code_viewer.php?code=getting-started/coordinate_systems_multiple_objects), [вершинным](https://learnopengl.com/code_viewer.php?code=getting-started/coordinate_systems&type=vertex) и [фрагментным](https://learnopengl.com/code_viewer.php?code=getting-started/coordinate_systems&type=fragment) шейдером.
+Отлично! Похоже, наш контейнер нашел несколько похожих на него друзей. Если вы застряли, то прежде чем продолжить посмотрите в чем может быть проблема и сравните свой код с [исходным кодом](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%208/src4.cpp), [вершинным](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%208/src4.vs) и [фрагментным](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%208/src4.fs) шейдером.
 
 ## Упражнения
 
 1. Создавая матрицу проекции, попробуйте поэкспериментировать в функции GLM **projection** с параметрами FOV и соотношением сторон.
 Посмотрите, сможете ли вы разобраться, как эти параметры влияют на перспективную усеченную пирамиду.
 2. Поиграйте с матрицей вида, сдвигая координаты в различных направлениях и посмотрите, как изменится сцена. Подумайте о матрице вида как о камере.
-3. Попробуйте сделать вращающимся каждый 3-й контейнер (в том числе 1), а остальные оставить неподвижными, используя при этом только матрицу модели: [решение](https://learnopengl.com/code_viewer.php?code=getting-started/coordinate_systems-exercise3).
+3. Попробуйте сделать вращающимся каждый 3-й контейнер (в том числе 1), а остальные оставить неподвижными, используя при этом только матрицу модели: [решение](https://github.com/loginmen/learnopengl/blob/master/part%201/chapter%208/exercise1.cpp).
