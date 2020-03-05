@@ -1,4 +1,4 @@
-#Learn OpenGL. Урок 4.8 — Продвинутый GLSL
+# Learn OpenGL. Урок 4.8 — Продвинутый GLSL
 
 ## Продвинутый GLSL
 
