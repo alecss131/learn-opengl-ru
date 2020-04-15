@@ -180,8 +180,7 @@ glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 ```cpp
 while(!glfwWindowShouldClose(window))
 {
-    // Обрабатываем события
-    glfwPollEvents();
+    processInput(window);
 
     // Отрисовка
     // Очищаем буфер цвета
@@ -201,6 +200,10 @@ while(!glfwWindowShouldClose(window))
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 3);
     glBindVertexArray(0);
+    
+    // Обрабатываем события
+    glfwSwapBuffers(window);
+    glfwPollEvents();
 }
 ```
 
@@ -212,7 +215,7 @@ while(!glfwWindowShouldClose(window))
 
 Как вы уже заметили, формы — это очень удобный способ обмена данными между шейдером и вашей программой. Но что делать если мы хотим задать цвет для каждой вершины? Для этого мы должны объявить столько форм, сколько имеется вершин. Наиболее удачным решением будет использование атрибутов вершин, что мы сейчас и продемонстрируем.
 
-Больше атрибутов богу атрибутов!!!
+## Больше атрибутов богу атрибутов!!!
 
 В предыдущем уроке мы видели как заполнить VBO, настроить указатели на аттрибуты вершин и как хранить это все в VAO. Теперь нам нужно добавить информацию о цветах к данным вершин. Для этого мы создадим вектор из трех элементов float. Мы назначим красный, зеленый, и синий цвета каждой из вершин треугольника соответственно:
 
@@ -293,24 +296,29 @@ glEnableVertexAttribArray(1);
 #ifndef SHADER_H
 #define SHADER_H
 
+#include <glad/glad.h> // Подключаем glad для того, чтобы получить все необходимые заголовочные файлы OpenGL
+  
 #include <string>
 #include <fstream>
 #include <sstream>
 #include <iostream>
-
-#include <GL/glew.h>; // Подключаем glew для того, чтобы получить все необходимые заголовочные файлы OpenGL
+  
 
 class Shader
 {
 public:
     // Идентификатор программы
-    GLuint Program;
+    unsigned int ID;
     // Конструктор считывает и собирает шейдер
     Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
     // Использование программы
     void Use();
+    // методы установки юниформ
+    void setBool(const std::string &name, bool value) const;  
+    void setInt(const std::string &name, int value) const;   
+    void setFloat(const std::string &name, float value) const;
 };
-
+  
 #endif
 ```
 
@@ -356,13 +364,13 @@ Shader(const GLchar* vertexPath, const GLchar* fragmentPath)
     [...]
 ```
 
-Теперь нам нужно скомпилировать и слинковать наш шейдер (давайте будем делать все хорошо, и сделаем функционал, сообщающей нам об ошибке при компиляции и линковки шейдера. Неожиданно, …но это очень полезно в процессе отладки):
+Теперь нам нужно скомпилировать и слинковать наш шейдер (давайте будем делать все хорошо, и сделаем функционал, сообщающей нам об ошибке при компиляции и линковки шейдера. Неожиданно, ...но это очень полезно в процессе отладки):
 
 ```cpp
 // 2. Сборка шейдеров
-GLuint vertex, fragment;
-GLint success;
-GLchar infoLog[512];
+unsigned int vertex, fragment;
+int success;
+char infoLog[512];
 
 // Вершинный шейдер
 vertex = glCreateShader(GL_VERTEX_SHADER);
@@ -380,15 +388,15 @@ if(!success)
 [...]
 
 // Шейдерная программа
-this->Program = glCreateProgram();
-glAttachShader(this->Program, vertex);
-glAttachShader(this->Program, fragment);
-glLinkProgram(this->Program);
+ID = glCreateProgram();
+glAttachShader(ID, vertex);
+glAttachShader(ID, fragment);
+glLinkProgram(ID);
 //Если есть ошибки - вывести их
-glGetProgramiv(this->Program, GL_LINK_STATUS, &success);
+glGetProgramiv(ID, GL_LINK_STATUS, &success);
 if(!success)
 {
-    glGetProgramInfoLog(this->Program, 512, NULL, infoLog);
+    glGetProgramInfoLog(ID, 512, NULL, infoLog);
     std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
 }
 
@@ -400,18 +408,38 @@ glDeleteShader(fragment);
 Ну а вишенкой на торте будет реализация метода Use:
 
 ```cpp
-void Use() { glUseProgram(this->Program); }  
+void use() 
+{ 
+    glUseProgram(ID);
+} 
+```
+
+Аналогично для любого из методов для установки юниформ:
+
+```cpp
+void setBool(const std::string &name, bool value) const
+{         
+    glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value); 
+}
+void setInt(const std::string &name, int value) const
+{ 
+    glUniform1i(glGetUniformLocation(ID, name.c_str()), value); 
+}
+void setFloat(const std::string &name, float value) const
+{ 
+    glUniform1f(glGetUniformLocation(ID, name.c_str()), value); 
+} 
 ```
 
 А вот и результат нашей работы:
 
 ```cpp
-Shader ourShader("path/to/shaders/shader.vs", "path/to/shaders/shader.frag");
+Shader ourShader("path/to/shaders/shader.vs", "path/to/shaders/shader.fs");
 ...
 while(...)
 {
-    ourShader.Use();
-    glUniform1f(glGetUniformLocation(ourShader.Program, "someUniform"), 1.0f);
+    ourShader.use();
+    ourShader.setFloat("someUniform", 1.0f);
     DrawStuff();
 }
 ```
