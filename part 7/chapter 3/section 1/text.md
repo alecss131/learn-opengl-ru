@@ -36,7 +36,7 @@ To get you excited you can see what the game will look like after you've finishe
 
 ![](1.png)
 
-These chapters will combine a large number of concepts from previous chapters and demonstrate how they can work together as a whole. Therefore, it is important to have at least finished the Getting started chapters before working your way through these series.
+These chapters will combine a large number of concepts from previous chapters and demonstrate how they can work together as a whole. Therefore, it is important to have at least finished the [Getting started](../../../part%201/chapter%201/text.md) chapters before working your way through these series.
 
 Also, several chapters will require concepts from other chapters \([Framebuffers](../../../part%204/chapter%205/text.md) for example from the Advanced OpenGL section\) so where necessary, the required chapters are listed.
 
