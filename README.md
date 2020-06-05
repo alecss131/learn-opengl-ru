@@ -43,7 +43,7 @@
   - [Инстансинг](part%204/chapter%2010/text.md)
   - [Сглаживание](part%204/chapter%2011/text.md)
 - Часть 5. Продвинутое освещение
-  - [Продвинутое освещение. Модель Блинна-Фонга.](part%205/chapter%201/text.md)
+  - [Продвинутое освещение. Модель Блинна-Фонга](part%205/chapter%201/text.md)
   - [Гамма-коррекция](part%205/chapter%202/text.md)
   - [Карты теней](part%205/chapter%203/text.md)
   - [Всенаправленные карты теней](part%205/chapter%204/text.md)
@@ -56,8 +56,23 @@
 - Часть 6. PBR
   - [Теория](part%206/chapter%201/text.md)
   - [Аналитические источники света](part%206/chapter%202/text.md)
-  - [IBL. Диффузная облученность.](part%206/chapter%203/text.md)
-  - [IBL. Зеркальная облученность.](part%206/chapter%204/text.md)
+  - [IBL. Диффузная облученность](part%206/chapter%203/text.md)
+  - [IBL. Зеркальная облученность](part%206/chapter%204/text.md)
 - Часть 7. Практика
   - [Отладка](part%207/chapter%201/text.md)
   - [Отрисовка текста](part%207/chapter%202/text.md)
+  - 2D Game
+    - [Breakout](part%207/chapter%203/section%201/text.md)
+    - [Setting up](part%207/chapter%203/section%202/text.md)
+    - [Rendering sprites](part%207/chapter%203/section%203/text.md)
+    - [Levels](part%207/chapter%203/section%204/text.md)
+    - Collisions
+      - [Ball](part%207/chapter%203/section%205/paragraph%201/text.md)
+      - [Collision detection](part%207/chapter%203/section%205/paragraph%202/text.md)
+      - [Collision resolution](part%207/chapter%203/section%205/paragraph%203/text.md)
+    - [Particles](part%207/chapter%203/section%206/text.md)
+    - [Postprocessing](part%207/chapter%203/section%207/text.md)
+    - [Powerups](part%207/chapter%203/section%208/text.md)
+    - [Audio](part%207/chapter%203/section%209/text.md)
+    - [Render text](part%207/chapter%203/section%2010/text.md)
+    - [Final thoughts](/part%207/chapter%203/section%2011/text.md)
