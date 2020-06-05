@@ -1,7 +1,9 @@
-# Сборник статей [переводов](https://habr.com/ru/post/336166/) сайта [learnopengl.com](https://learnopengl.com/) в одном месте
+# Сборник статей [переводов](https://habr.com/ru/post/462897/) сайта [learnopengl.com](https://learnopengl.com/) в одном месте
 
 - [ ] Синхронизировать перевод и код с оригинальным сайтом сайтом \[WIP\]
 - [ ] Перевести остатки сайта
+
+>Ссылка в заголовке на 7 часть, так как в ней самое полное оглавление.
 
 [Ссылка](https://github.com/JoeyDeVries/LearnOpenGL) на гит с кодом сайта
 
