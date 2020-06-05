@@ -56,3 +56,6 @@
   - [Аналитические источники света](part%206/chapter%202/text.md)
   - [IBL. Диффузная облученность.](part%206/chapter%203/text.md)
   - [IBL. Зеркальная облученность.](part%206/chapter%204/text.md)
+- Часть 7. Практика
+  - [Отладка](part%207/chapter%201/text.md)
+  - [Отрисовка текста](part%207/chapter%202/text.md)
