@@ -215,4 +215,4 @@ Then each time we hit a solid block, the screen briefly starts to shake and blur
 
 You can find the updated source code of the game class [here](game.cpp).
 
-In the next chapter about powerups we'll bring the other two postprocessing effects to good use.
+In the [next](../section%208/text.md) chapter about powerups we'll bring the other two postprocessing effects to good use.
