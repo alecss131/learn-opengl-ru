@@ -62,7 +62,7 @@
   - [Отладка](part%207/chapter%201/text.md)
   - [Отрисовка текста](part%207/chapter%202/text.md)
   
-\[WIP\] Ниже нуждается в заполнении и переводе (в процессе)
+\[WIP\] Ниже нуждается в переводе (в процессе)
   
   - 2D Game
     - [Breakout](part%207/chapter%203/section%201/text.md)
