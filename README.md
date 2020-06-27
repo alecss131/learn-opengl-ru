@@ -61,14 +61,12 @@
 - Часть 7. Практика
   - [Отладка](part%207/chapter%201/text.md)
   - [Отрисовка текста](part%207/chapter%202/text.md)
-  
-\[WIP\] Ниже нуждается в переводе (в процессе)
-  
   - 2D Game
-    - [Breakout](part%207/chapter%203/section%201/text.md)
-    - [Setting up](part%207/chapter%203/section%202/text.md)
-    - [Rendering sprites](part%207/chapter%203/section%203/text.md)
-    - [Levels](part%207/chapter%203/section%204/text.md)
+    - [Арканоид](part%207/chapter%203/section%201/text.md)
+    - [Настройка](part%207/chapter%203/section%202/text.md)
+    - [Рендер спрайтов](part%207/chapter%203/section%203/text.md)
+    - [Уровни](part%207/chapter%203/section%204/text.md)
+    \[WIP\] Ниже нуждается в переводе (в процессе)
     - Collisions
       - [Ball](part%207/chapter%203/section%205/paragraph%201/text.md)
       - [Collision detection](part%207/chapter%203/section%205/paragraph%202/text.md)
