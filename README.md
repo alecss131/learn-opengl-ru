@@ -66,7 +66,9 @@
     - [Настройка](part%207/chapter%203/section%202/text.md)
     - [Рендер спрайтов](part%207/chapter%203/section%203/text.md)
     - [Уровни](part%207/chapter%203/section%204/text.md)
+    
     \[WIP\] Ниже нуждается в переводе (в процессе)
+    
     - Collisions
       - [Ball](part%207/chapter%203/section%205/paragraph%201/text.md)
       - [Collision detection](part%207/chapter%203/section%205/paragraph%202/text.md)
