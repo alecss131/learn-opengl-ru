@@ -1,16 +1,16 @@
-# Levels
+# Уровни
 
-Breakout is unfortunately not just about a single happy green face, but contains complete levels with a lot of playfully colored bricks. We want these levels to be configurable such that they can support any number of rows and\/or columns, we want the levels to have solid bricks \(that cannot be destroyed\), we want the levels to support multiple brick colors, and we want them to be stored externally in \(text\) files.
+Игра Арканоид, увы не только о создании одного счастливого зеленого шарика, она также содержит полные уровни с большим количеством разноцветных кирпичей. Мы хотим, чтобы эти уровни были настраиваемыми таким образом, чтобы они могли поддерживать любое количество ячеек и /или столбцов, мы хотим, чтобы уровни имели нерушимые кирпичи \(которые не могут быть уничтожены\), мы хотим, чтобы была возможность настраивать различные цвета для кирпичей, а также сохранять настройки во внешний \(текстовый\) файл.
 
-In this chapter we'll briefly walk through the code of a game level object that is used to manage a large amount of bricks. We first have to define what an actual brick is though.
+В этой главе мы кратко пройдемся по коду объекта игрового уровня, который используется для управления большим количеством кирпичей. Сначала мы должны определить объект кирпича.
 
-We create a component called a game object that acts as the base representation of an object inside the game. Such a game object holds state data like its position, size, and velocity. It holds a color, a rotation component, whether it is solid and\/or destroyed, and it also stores a *Texture2D* variable as its sprite.
+Мы создаем компонент, называемый игровым объектом, который действует как базовое представление объекта внутри игры. Такой игровой объект содержит такие данные, как его положение, размер и скорость. Он содержит цвет, компонент вращения, состояние не разрушен и\/или уничтожен, а также сохраняет переменную *Texture2d* в качестве спрайта.
 
-Each object in the game is represented as a *GameObject* or a derivative of this class. You can find the code of the *GameObject* class below:
+Каждый объект в игре представлен как *Gameobject* или наследник этого класса. Код класса *Gameobject* приведен ниже:
 
 - GameObject: [header](game_object.h), [code](game_object.cpp)
 
-A level in Breakout consists entirely of bricks so we can represent a level by exactly that: a collection of bricks. Because a brick requires the same state as a game object, we're going to represent each brick of the level as a *GameObject*. The declaration of the *GameLevel* class then looks as follows:
+Уровень в Арканоиде состоит полностью из кирпичей, так что мы можем представлять уровень как коллекцию кирпичей. Поскольку кирпич требует того же состояния, что и игровой объект, мы собираемся представлять каждый кирпич уровня как *Gameobject*. Объявление класса *Gamelevel* выглядит следующим образом:
 
 ```cpp
 class GameLevel
@@ -33,7 +33,7 @@ private:
 };  
 ```
 
-Since a level is loaded from an external \(text\) file, we need to propose some kind of level structure. Here is an example of what a game level may look like in a text file:
+Так как уровень загружается из внешнего файла \(текстовый\), нам нужно предложить некую структуру уровня. Вот пример того, как может выглядеть уровень игры в текстовом файле:
 
 ```
 1 1 1 1 1 1 
@@ -41,17 +41,17 @@ Since a level is loaded from an external \(text\) file, we need to propose some 
 3 3 4 4 3 3
 ```
 
-A level is stored in a matrix-like structure where each number represents a type of brick, each one separated by a space. Within the level code we can then assign what each number represents. We have chosen the following representation:
+Уровень сохраняется в матричной структуре, где каждое число представляет собой тип кирпича, каждый из которых отделен пробелом. В коде для каждого уровня мы можем обозначить, что представляет каждое число. Мы выбрали следующее представление:
 
-- A number of 0: no brick, an empty space within the level.
-- A number of 1: a solid brick, a brick that cannot be destroyed.
-- A number higher than 1: a destroyable brick; each subsequent number only differs in color.
+- Число 0: без кирпича, пустое пространство внутри уровня.
+- Число 1: цельный кирпич, кирпич, который нельзя уничтожить.
+- Число больше 1: разрушаемый кирпич; каждое последующее число отличается только цветом.
 
-The example level listed above would, after being processed by *GameLevel*, look like this:
+Приведенный выше пример уровеня после обработки *Gamelevel* будет выглядеть так:
 
 ![](0.png)
 
-The *GameLevel* class uses two functions to generate a level from file. It first loads all the numbers in a two-dimensional vector within its *Load* function that then processes these numbers \(to create all game objects\) in its *init* function.
+Класс *Gamelevel* использует две функции для генерации уровня из файла. Сначала он загружает все числа в двумерном векторе в функцию *Load* которая затем обрабатывает эти числа \(для создания всех игровых объектов\) в функции *init* .
 
 ```cpp
 void GameLevel::Load(const char *file, unsigned int levelWidth, unsigned int levelHeight)
@@ -80,7 +80,7 @@ void GameLevel::Load(const char *file, unsigned int levelWidth, unsigned int lev
 } 
 ```
 
-The loaded tileData is then passed to the game level's *init* function:
+Загруженная tileData затем передается на игровой уровень *init* функции:
 
 ```cpp
 void GameLevel::init(std::vector<std::vector<unsigned int>> tileData, 
@@ -131,23 +131,24 @@ void GameLevel::init(std::vector<std::vector<unsigned int>> tileData,
 }
 ```
 
-The *init* function iterates through each of the loaded numbers and adds a *GameObject* to the level's Bricks vector based on the processed number. The size of each brick is automatically calculated \(unit_width and unit_height\) based on the total number of bricks so that each brick perfectly fits within the screen bounds.
+Функция *init* проходит по каждому загруженному числу и добавляет *Gameobject* к вектору уровней Bricks на основе обработанного числа. Размер каждого кирпича рассчитывается автоматически \(unit_width и unit_height\) на основе общего количества кирпичей, таким образом чтобы каждый кирпич идеально вписывался в рамки экрана.
 
-Here we load the game objects with two new textures, a [block](block.png) texture and a [solid block](block_solid.png) texture.
+Здесь мы загружаем игровые объекты с двумя новыми текстурами, текстурой [блока](block.png) и текстурой [твердого блока](block_solid.png).
 
 ![](1.png)
 
-A nice little trick here is that these textures are completely in gray-scale. The effect is that we can neatly manipulate their colors within the game-code by multiplying their grayscale colors with a defined color vector; exactly as we did within the *SpriteRenderer*. This way, customizing the appearance of their colors doesn't look too weird or unbalanced.
+Небольшой секре т заключается в том, что эти текстуры полностью в отмасштабированы в сером цвете. Эффект достигается за счет того, что мы можем аккуратно манипулировать их цветами внутри игрового кода, умножая цвета серого на определенный вектор цветов; точно так же, как мы сделали в *Spriterenderer*. Таким образом, настройка цвета не выглядит слишком странной или несбалансированной.
 
-The *GameLevel* class also houses a few other functions, like rendering all non-destroyed bricks, or validating if all non-solid bricks are destroyed. You can find the source code of the *GameLevel* class below:
+Класс *Gamelevel* также содержит несколько других функций, таких как рендеринг всех неразрушенных кирпичей, или проверка, если все разрушаемые кирпичи уничтожены. Вы можете найти исходный код класса *Gamelevel* ниже:
 
 - GameLevel: [header](game_level.h), [code](game_level.cpp)
 
-The game level class gives us a lot of flexibility since any amount of rows and columns are supported and a user could easily create his/her own levels by modifying the level files.
+Класс игрового уровня дает нам большую гибкость, поскольку поддерживается  любое количество ячеек и столбцов, и пользователь может легко создать новые уровни, путем модификации текстового файла уровней.
 
-## Within the game
+## В игре
 
-We would like to support multiple levels in the Breakout game so we'll have to extend the game class a little by adding a vector that holds variables of type *GameLevel*. We'll also store the currently active level while we're at it:
+Мы хотели бы иметь возможность поддержки нескольких уровней в игре Арканоид, так что нам придется немного расширить класс игры, добавив вектор, который содержит переменные типа *Gamelevel*. Мы также добавим возможность сохранения текущего активного уровня:
+
 
 ```cpp
 class Game
@@ -159,14 +160,14 @@ class Game
 };
 ```
 
-This series' version of the Breakout game features a total of 4 levels:
+Эта версия игры Арканоид включает в себя 4 уровня:
 
 - [Standard](one.lvl)
 - [A few small gaps](two.lvl)
 - [Space invader](three.lvl)
 - [Bounce galore](four.lvl)
 
-Each of the textures and levels are then initialized within the game class's *Init* function:
+Затем каждая из текстур и уровней инициализируется в рамках игрового класса *Init* функции:
 
 ```cpp
 void Game::Init()
@@ -190,7 +191,7 @@ void Game::Init()
 }  
 ```
 
-Now all that is left to do, is actually render the level. We accomplish this by calling the currently active level's *Draw* function that in turn calls each *GameObject*'s *Draw* function using the given sprite renderer. Next to the level, we'll also render the scene with a nice [background image](background.jpg) \(courtesy of Tenha\):
+Все, что осталось сделать, это создать уровень. Для этого вызываем функцию текущего активного уровня *Draw* которая в свою очередь вызывает функции *Gameobject* *Draw* с использованием данного спрайтового рендера. Рядом с уровнем, мы также добавим сцену с красивым [фоновым изображением](background.jpg) \(courtesy of Tenha\):
 
 ```cpp
 void Game::Render()
@@ -207,17 +208,17 @@ void Game::Render()
 }
 ```
 
-The result is then a nicely rendered level that really starts to make the game feel more alive:
+В результате получается хорошо сконструированный уровень, который действительно делает игру более живой:
 
 ![](2.png)
 
-### The player paddle
+### Платформа игрока
 
-While we're at it, we may just as well introduce a paddle at the bottom of the scene that is controlled by the player. The paddle only allows for horizontal movement and whenever it touches any of the scene's edges, its movement should halt. For the player paddle we're going to use the [following](paddle.png) texture:
+Далее мы создаем платформу в нижней части сцены, которая контролируется игроком. Платформа может двигаться только горизонтально, и всякий раз, когда она касается какого-либо края сцены, ее движение должно останавливаться. В качестве платформы мы будем использовать [следующую](paddle.png) текстуру:
 
 ![](3.png)
 
-A paddle object will have a position, a size, and a sprite texture, so it makes sense to define the paddle as a *GameObject* as well:
+Объект игровой платформы будет иметь положение, размер и спрайтовую текстуру, так что имеет смысл определить этот объект как *Gameobject*:
 
 ```cpp
 // Initial size of the player paddle
@@ -225,7 +226,7 @@ const glm::vec2 PLAYER_SIZE(100.0f, 20.0f);
 // Initial velocity of the player paddle
 const float PLAYER_VELOCITY(500.0f);
 
-GameObject      *Player;
+GameObject *Player;
   
 void Game::Init()
 {
@@ -240,15 +241,15 @@ void Game::Init()
 }
 ```
 
-Here we defined several constant values that define the paddle's size and speed. Within the Game's *Init* function we calculate the starting position of the paddle within the scene. We make sure the player paddle's center is aligned with the horizontal center of the scene.
+Здесь мы определили несколько константных значений, которые определяют размер и скорость платформы. В рамках функции *Init* мы вычисляем стартовое положение ракетки внутри сцены. Мы убедимся, что центр ракетки соответствует горизонтальному центру сцены.
 
-With the player paddle initialized, we also need to add a statement to the Game's *Render* function:
+Вместе с инициализацией игровой платформы, нам также нужно добавить ссылку на функцию *Render* :
 
 ```cpp
 Player->Draw(*Renderer);
 ```
 
-If you'd start the game now, you would not only see the level, but also a fancy player paddle aligned to the bottom edge of the scene. As of now, it doesn't really do anything so we're going to delve into the Game's *ProcessInput* function to horizontally move the paddle whenever the user presses the A or D key:
+Если бы вы начали игру сейчас, вы бы увидели не только уровень, но и модную платформу игрока, расположенную на нижнем крае сцены. Покачто она ничего не делает, поэтому мы собираемся доработать функцию *Processinput*, чтобы горизонтально перемещать платформу всякий раз, когда пользователь нажимает клавишу A или D:
 
 ```cpp
 void Game::ProcessInput(float dt)
@@ -271,12 +272,12 @@ void Game::ProcessInput(float dt)
 } 
 ```
 
-Here we move the player paddle either in the left or right direction based on which key the user pressed \(note how we multiply the velocity with the deltatime variable\). If the paddle's x value would be less than 0 it would've moved outside the left edge, so we only move the paddle to the left if the paddle's x value is higher than the left edge's x position \(0.0\). We do the same for when the paddle breaches the right edge, but we have to compare the right edge's position with the right edge of the paddle \(subtract the paddle's width from the right edge's x position\).
+Здесь мы перемещаем игровую платформу либо в левом, либо в правом направлении, в зависимости от того, какую клавишу нажал пользователь \(обратите внимание, как мы умножаем скорость с переменной deltatime\). Если бы значение платформы было меньше 0, она бы переместилась за левый край, так что мы перемещаем платформу только влево, если значение х больше, чем положение левого ребра х \(0,0\). Мы делаем то же самое в случае, когда платформа выходит за границы правого края, но мы должны сравнить положение правого края с правым ребром платформы \(вычитая ширину платформы из позиции х правого ребра\).
 
-Now running the game gives us a player paddle that we can move all across the bottom edge:
+Теперь при запуске игры у нас есть игровая платформа, которую мы можем перемещать по всему нижнему краю игрового поля:
 
 ![](4.png)
 
-You can find the updated code of the Game class here:
+Вы можете найти обновленный исходный код класса Game здесь:
 
 - Game: [header](game.h), [code](game.cpp)
