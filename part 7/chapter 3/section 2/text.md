@@ -1,39 +1,39 @@
-# Setting up
+# Настройка
 
-Before we get started with the game mechanics, we first need to set up a simple framework for the game to reside in. The game will use several third party libraries of which most have been introduced in earlier chapters. Wherever a new library is required, it will be properly introduced.
+Перед тем как мы приступим к разработке игровой механики, для начала необходимо произвести базовые настройки игровой среды. Игра будет использовать некоторые сторонние библиотеки работа с большинством из них была описана в предыдущих главах. Там где потребуется использование новой библиотеки, работа с ней будет представлена соответствующим образом.
 
-First, we define a so called uber game class that contains all relevant render and gameplay code. The idea of such a game class is that it \(sort of\) organizes your game code, while also decoupling all windowing code from the game. This way, you could use the same class in a completely different windowing library \(like SDL or SFML for example\) without much effort.
+Для начала, мы определяем класс самой игры game который содержит весь необходимый код отрисовки и игровой логики. Идея создания такого игрового класса заключается в том. что он \(косвенно\) организует игровой движок, в то время как окно приложения разрабатывается отдельно. Таким образом, вы можете использовать один и тот же класс с совершенно разными библиотеками по созданию окна приложения \(например SDL или SFML\) без каких либо проблем.
 
-> There are thousands of ways of trying to abstract and generalize game/graphics code into classes and objects. What you will see in these chapters is just one \(relatively simple\) approach to solve this issue. If you feel there is a better approach, try to come up with your own improvement of the implementation.
+> Существует множество способов и попыток сделать абстрактным или разделить игровой/графический код на классы и объекты. То что вы увидите в этой главе - это всего лишь один \(относительно простой\) способ решения этой задачи. Если вы считаете что есть более правильный подход, то постарайтесть придумать свою версию как реализовать эту задачу лучше.
 
-The game class hosts an initialization function, an update function, a function to process input, and a render function:
+Класс game содержит в себе функции: инициализации, обновления, обработки ввода, а также функцию отрисовки \(рендера\):
 
 ```cpp
 class Game
 {
     public:
-        // game state
+        // состояние игрового процесса
         GameState    State;	
         bool         Keys[1024];
         unsigned int Width, Height;
-        // constructor/destructor
+        // конструктор/деструктор
         Game(unsigned int width, unsigned int height);
         ~Game();
-        // initialize game state (load all shaders/textures/levels)
+        // инициализация игрового процесса (загрузка всех шейдеров/текструр/уровней)
         void Init();
-        // game loop
+        // игровой цикл
         void ProcessInput(float dt);
         void Update(float dt);
         void Render();
 };
 ```
 
-The class hosts what you may expect from a game class. We initialize the game with a width and height \(the resolution you want to play the game in\) and use the *Init* function to load shaders, textures, and initialize all gameplay state. We can process input as stored within the Keys array by calling *ProcessInput*, and update all gameplay events \(like player\/ball movement\) in the *Update* function. Last, we can render the game by calling *Render*. Note that we split the movement logic from the render logic.
+Класс содержит в себе все то что вы можете ожидать от игрового класса. Мы инициализируем ширину и высоту \(игровое разрешение\) а также используем *Init* функцию для загрузки шейдеров, текстур и  инициализации всего игрового процесса. Мы можем считывать нажатие кнопок клавиатуры по средствам вызова функции *ProcessInput*, и обрабатывать все игровые события \(например движение игрока\/шара\) в функции *Update*. В конечном итоге, мы рисуем игру по средствам вызова функции *Render*. Учтите что логика движения идет отдельно от логики отрисовки (рендера).
 
-The *Game* class also hosts a variable called State which is of type GameState as defined below:
+Класс *Game* также содержит так называемые переменные состояния которым присваивается тип GameState как показано ниже:
 
 ```cpp
-// Represents the current state of the game
+// Представляет текущее состояние игры
 enum GameState {
     GAME_ACTIVE,
     GAME_MENU,
@@ -41,57 +41,59 @@ enum GameState {
 }; 
 ```
 
-This allows us to keep track of what state the game is currently in. This way, we can decide to adjust rendering and/or processing based on the current state of the game \(we probably render and process diferent items when we're in the game's menu for example\).
+Это позволяет нам отслеживать в каком текущем состоянии находится игра. таким оразом, мы можем производить настройку рендера и\/или обрабатывать события основываясь на текущем состоянии игры \(мы рендерим и обрабатываем различные предметы когда например находимся в игровом меню\).
 
-As of now, the functions of the game class are completely empty since we have yet to write the actual game code, but here are the Game class's [header](game.h) and [code](game.cpp) file.
+На данный момент, функции игрового класса полностью пустые поскольку нам еще предстоит написать сам код игры, но здесь уже есть заголовочные файлы класса "Game": [заголовок](game.h) and [код реализации](game.cpp).
 
-## Utility
+## Утилиты
 
-Since we're creating a large application we'll frequently have to re-use several OpenGL concepts, like textures and shaders. It thus makes sense to create a more easy-to-use interface for these two items as similarly done in one of the earlier chapters where we created a shader class.
+Поскольку мы создаем большое приложение нам часто придется повторно использовать некоторые концепты OpenGL, такие как текстуры и шейдеры. Таким образом имеет смысл создать более простой в использовании интерфейс для этих двух элементов по аналогии как мы делали это в предыдущих главах где создавали класс самого шейдера.
 
-We define a shader class that generates a compiled shader \(or generates error messages if it fails\) from two or three strings \(if a geometry shader is present\). The shader class also contains a lot of useful utility functions to quickly set uniform values. We also define a texture class that generates a 2D texture image \(based on its properties\) from a byte array and a given width and height. Again, the texture class also hosts utility functions.
+Мы определяем класс шейдера который генерирует откомпилированный шейдер \(или генерирует код ошибки\) из двух или трех строк \(если присутствует геометрический шейдер\). Класс шейдера также содержит в себе множество полезных вспомогательных функций  для быстрой установки значений юниформ. Мы также определяем класс текстуры  который генерирует 2D изображение \(на основе свойств\) из байтового массива и заданной ширины и высоты. Класс текстуры также содержит в себе вспомогательные функции.
 
-We won't delve into the details of the classes since by now you should easily understand how they work. For this reason you can find the header and code files, fully commented, below:
+Мы не бужем погружаться в детали создания классов поскольку к этому моменту вы должны понимать как они работают. Для этого вы можете посмотреть на код заголовочного и файла реализации , полностью с комментариями, ниже:
 
 - Shader: [header](shader.h), [code](shader.cpp).
 - Texture: [header](texture.h), [code](texture.cpp).
 
-Note that the current texture class is solely designed for 2D textures only, but could easily be extended for alternative texture types.
+Учтите что текущий класс текстуры едва ли учитывает все требования к реализации только 2D текстур, но может быть легко доработан для альтернативных типов текстур.
 
-## Resource management
+## Управление ресурсами
 
-While the shader and texture classes function great by themselves, they do require either a byte array or a list of strings for initialization. We could easily embed file loading code within the classes themselves, but this slightly violates the single responsibility principle. We'd prefer these classes to only focus on either textures or shaders respectively, and not necessarily their file-loading mechanics.
+В то время как классы текстур и шейдеров работают сами по себе, они действительно требуется массив байтов или список строк для инициализации. Мы можем с легкостью добавить функционал загрузки файла в сами классы, но это несколько нарушает принцип единного подхода к реализации. Лучше мы сфокусируемся на разработке самих текстур или шейдеров соответственно, не затрагивая механизм их файловой загрузки.
 
-For this reason it is often considered a more organized approach to create a single entity designed for loading game-related resources called a resource manager. There are several approaches to creating a resource manager; for this chapter we chose to use a singleton static resource manager that is (due to its static nature) always available throughout the project, hosting all loaded resources and their relevant loading functionality.
+По этой причине зачастую считается более рациональным создание единного компонента направленного на загрузку игровых ресурсов называемого - менеджером ресурсов. Существует несколько способов создания менеджера ресурсов; в этой главе мы решили использовать метод singleton static resource manager который \(в связи со своим статическим происхождением\) доступен во всем проекте и в целом содержит все загруженные ресурсы и связанный с ними функционал. 
 
-Using a singleton class with static functionality has several advantages and disadvantages, with its disadvantages mostly being the loss of several OOP properties and less control over construction/destruction. However, for relatively small projects like this it is easy to work with.
+>Singleton - порождающий шаблон проектирования, гарантирующий что в однопроцессном приложении будет единственный экземпляр некторого класса. Прим. переводчика
 
-Like the other class files, the resource manager is listed below:
+Использование однопроцессного singleton класса в совокупности со статическим функционалом дает некоторые преимущества и недостатки, к недостаткам можно отнести по большей части потерю некоторых свойств ООП и меньший контроль над конструктором\/деструктором класса. Как бы то не было, для такого небольшого проекта как этот с этим будет легко работать.
+
+По аналогии с другими классами, файлы класса менеджера ресурсов представлены здесь:
 
 - Resource Manager: [header](resource_manager.h), [code](resource_manager.cpp).
 
-Using the resource manager, we can easily load shaders into the program like:
+Используя менеджер ресурсов, мы можем с легкостью загрузить шейдеры в программу как показано ниже:
 
 ```cpp
 Shader shader = ResourceManager::LoadShader("vertex.vs", "fragment.vs", nullptr, "test");
-// then use it
+// затем использовать их
 shader.Use();
-// or
+// или
 ResourceManager::GetShader("test").Use();
 ```
 
-The defined *Game* class, together with the resource manager and the easily manageable *Shader* and *Texture2D* classes, form the basis for the next chapters as we'll be extensively using these classes to implement the Breakout game.
+Определенный класс *Game* вместе с менеджером ресурсов и лего управляемыми классами *Shader* и *Texture2D*, определяют базу для последующих глав так как мы будем широко использовать эти классы для реализации "Арканоида".
 
-## Program
+## Программа 
 
-We still need a window for the game and set some initial OpenGL state as we make use of OpenGL's [blending](../../../part%204/chapter%203/text.md) functionality. We do not enable depth testing, since the game is entirely in 2D. All vertices are defined with the same z-values so enabling depth testing would be of no use and likely cause z-fighting.
+Нам все еще остается нужным окно для вывода представления игры и установки некоторых начальных OpenGL состояний по мере использования функций [смешивания](../../../part%204/chapter%203/text.md). Мы не используем проверку глубины, поскольку игра полностью в 2D. Все вершины определены с одним и тем же параметром z-value таким образом включение  опции проверки глубины не повлияет на результат отображения и может вызвать дополнительные ошибки.
 
-The startup code of the Breakout game is relatively simple: we create a window with GLFW, register a few callback functions, create the *Game* object, and propagate all relevant functionality to the game class. The code is given below:
+Код инициализации игры "Арканоид" относительно простой: мы создаем GLFW окно, регистрируем некоторые функции обратного вызова, создаем объект класса *Game*, и передаем весь необходимый функционал в класс игры. Код представлен ниже:
 
 - Program: [code](program.cpp).
 
-Running the code should give you the following output:
+После запуска кода вы должны получить следующий результат:
 
 ![](0.png)
 
-By now we have a solid framework for the upcoming chapters; we'll be continuously extending the game class to host new functionality. Hop over to the [next chapter](../../chapter%203/section%203/text.md) once you're ready.
+На данный момент у нас есть прочная основа для последующих уроков; мы будем постоянно совершенствовать игровой класс добавляя в него новый функционал. Переходите к  [следующей главе](../../chapter%203/section%203/text.md) как только будите готовы.
