@@ -1,24 +1,24 @@
-# Collision detection
+# Определение коллизий
 
-When trying to determine if a collision occurs between two objects, we generally do not use the vertex data of the objects themselves since these objects often have complicated shapes; this in turn makes the collision detection complicated. For this reason, it is a common practice to use more simple shapes (that usually have a nice mathematical definition) for collision detection that we overlay on top of the original object. We then check for collisions based on these simple shapes; this makes the code easier and saves a lot of performance. A few examples of such collision shapes are circles, spheres, rectangles, and boxes; these are a lot simpler to work with compared to arbitrary meshes with hundreds of triangles.
+В момент определения коллизии между двумя объектами, мы в основном не используем вершинные данные самих объектов поскольку эти объекты часто имеют сложные формы; это в свою очередь делает механизм определения коллизий достаточно сложным. По этой причине, общепринятой практикой является использование более простых форм \(на это обычно есть математическое тому объяснение\) для определения коллизий поверх основных объектов. Затем мы проверяем коллизии на основе этих простых форм;это делает код проще и улучшает производительность. Некоторые примеры таких коллизий: круги, сферы, квадраты, и кубы; с ними гораздо проще работать по сравнению с произвольными сетками с сотнями треугольников.
 
-While the simple shapes do give us easier and more efficient collision detection algorithms, they share a common disadvantage in that these shapes usually do not fully surround the object. The effect is that a collision may be detected that didn't really collide with the actual object; one should always keep in mind that these shapes are just approximations of the real shapes.
+В то время как простые формы дают нам более простые и эффективные алгоритмы обнаружения коллизий, они имеют общий недостаток в том, что эти формы обычно не полностью окружают объект. Эффект заключается в том, что можно обнаружить коллизии, которые на самом деле не столкнулось с фактическим объектом; следует всегда иметь в виду, что эти формы являются лишь приближениями реальных фигур.
 
-## AABB - AABB collisions
+## AABB - AABB коллизии
 
-AABB stands for axis-aligned bounding box, a rectangular collision shape aligned to the base axes of the scene, which in 2D aligns to the x and y axis. Being axis-aligned means the rectangular box has no rotation and its edges are parallel to the base axes of the scene \(e.g. left and right edge are parallel to the y axis\). The fact that these boxes are always aligned to the axes of the scene makes calculations easier. Here we surround the ball object with an AABB:
+AABB означает выравниваемый по оси ограничивающий бокс, прямоугольную форму коллизии, выравниваемую по базовым осям сцены, которая в 2D выравнивается по оси x и y. Выравнивание по осям означает, что прямоугольный ящик не имеет поворота, а его рёбра параллельны базовым осям сцены \(например. левое и правое ребро параллельны оси у\). Тот факт, что эти коробки всегда выравниваются по осям сцены, облегчает вычисления. Здесь мы реализуем объект шара с помощью AABB:
 
 ![](0.png)
 
-Almost all the objects in Breakout are rectangular based objects, so it makes perfect sense to use axis aligned bounding boxes for detecting collisions. This is exactly what we're going to do.
+Почти все объекты в Арканоиде - это объекты с прямоугольной базой, так что для обнаружения коллизий вполне целесообразно использовать решетки ограничения на оси. Именно это мы и сделаем.
 
-Axis aligned bounding boxes can be defined in several ways. One of them is to define an AABB by a top-left and a bottom-right position. The *GameObject* class that we defined already contains a top-left position \(its Position vector\), and we can easily calculate its bottom-right position by adding its size to the top-left position vector \(Position + Size\). Effectively, each *GameObject* contains an AABB that we can use for collisions.
+Ограничивающие поля, выровненные по осям, могут быть определены несколькими способами. Один из них заключается в определении AABB по положению top-left и buttom-right. Класс *GameObject* который мы уже определили содержит top-left положение \(вектор положения\), и мы можем легко рассчитать его правое нижнее положение, добавив его размер к левому верхнему вектору положения \(Положение + Размер\). Фактически, каждый объект класса *GameObject* содержит AABB который мы можем использовать для коллизий.
 
-So how do we check for collisions? A collision occurs when two collision shapes enter each other's regions e.g. the shape that determines the first object is in some way inside the shape of the second object. For AABBs this is quite easy to determine due to the fact that they're aligned to the scene's axes: we check for each axis if the two object' edges on that axis overlap. So we check if the horizontal edges overlap, and if the vertical edges overlap of both objects. If both the horizontal **and** vertical edges overlap we have a collision.
+Итак, как мы проверяем коллизии? Коллизия происходит, когда две формы столкновения входят в области друг друга, т.е. форма, определяющая первый объект, в некотором роде находится внутри формы второго объекта. Для AABB это довольно легко определить из-за того, что они выравниваются по осям сцены: мы проверяем каждую ось, перекрываются ли рёбра двух объектов на этой оси. Мы проверяем, перекрываются ли горизонтальные края и перекрывают ли оба объекта вертикальные края. Если оба края горизонтальный **и** вертикальный перекрываются значит мы получаем коллизию.
 
 ![](1.png)
 
-Translating this concept to code is relatively straightforward. We check for overlap on both axes and if so, return a collision:
+Перевод этой концепции в код относительно прост. Мы проверяем перекрытие на обеих осях и, если это так, возвращаем коллизию:
 
 ```cpp
 bool CheckCollision(GameObject &one, GameObject &two) // AABB - AABB collision
@@ -34,9 +34,9 @@ bool CheckCollision(GameObject &one, GameObject &two) // AABB - AABB collision
 }  
 ```
 
-We check if the right side of the first object is greater than the left side of the second object and if the second object's right side is greater than the first object's left side; similarly for the vertical axis. If you have trouble visualizing this, try to draw the edges/rectangles on paper and determine this for yourself.
+Мы проверяем, больше ли правая сторона первого объекта левой стороны второго объекта и больше ли правая сторона второго объекта левой стороны; аналогично вертикальной оси. Если у вас возникли проблемы с визуализацией, попробуйте нарисовать рёбра\/прямоугольники на бумаге и посмотреть как это выглядит.
 
-To keep the collision code a bit more organized we add an extra function to the *Game* class:
+Чтобы сохранить код коллизии немного более организованным, мы добавляем дополнительную функцию в класс *Game* :
 
 ```cpp
 class Game
@@ -47,7 +47,7 @@ class Game
 };
 ```
 
-Within *DoCollisions*, we check for collisions between the ball object and each brick of the level. If we detect a collision, we set the brick's Destroyed property to true, which instantly stops the level from rendering this brick:
+В *Docollisions*, мы проверяем коллизии между объектом мяча и каждым кирпичом уровня. Если мы обнаружим коллизию, то установим свойство кирпича destroyed в true, что немедленно остановит уровень от рендеринга этого кирпича:
 
 ```cpp
 void Game::DoCollisions()
@@ -66,7 +66,7 @@ void Game::DoCollisions()
 }  
 ```
 
-Then we also need to update the game's *Update* function:
+Тогда нам также нужно обновить функцию игры *Update* :
 
 ```cpp
 void Game::Update(float dt)
@@ -78,31 +78,31 @@ void Game::Update(float dt)
 }  
 ```
 
-If we run the code now, the ball should detect collisions with each of the bricks and if the brick is not solid, the brick is destroyed. If you run the game now it'll look something like this:
+Если мы запустим код сейчас, мяч должен обнаружить коллизию с каждым кирпичом, и если кирпич не имеет свойства solid (неразрушаемый), кирпич будет уничтожен. Если запустить игру, это будет выглядеть примерно так:
 
 [collisions.mp4](collisions.mp4)
 
-While the collision detection does work, it's not very precise since the ball's rectangular collision shape collides with most of the bricks without the ball directly touching them. Let's see if we can figure out a more precise collision detection technique.
+Хотя обнаружение столкновения работает, оно не очень точное, так как прямоугольная форма столкновения шара сталкивается с большинством кирпичей без прямого соприкосновения мяча. Посмотрим, сможем ли мы найти более точный метод обнаружения коллизий.
 
-## AABB - Circle collision detection
+## AABB - Обнаружение коллизий круга
 
-Beacuse the ball is a circle-like object, an AABB is probably not the best choice for the ball's collision shape. The collision code thinks the ball is a rectangular box, so the ball often collides with a brick even though the ball sprite itself isn't yet touching the brick.
+Мяч является круглым объектом, AABB, вероятно, не лучший выбор для формы обнаружения коллизий для мяча. Код столкновения думает, что мяч является прямоугольником, поэтому мяч часто сталкивается с кирпичом, хотя сам спрайт еще не касается кирпича.
 
 ![](2.png)
 
-It makes much more sense to represent the ball with a circle collision shape instead of an AABB. For this reason we included a Radius variable within the ball object. To define a circle collision shape, all we need is a position vector and a radius.
+Гораздо более логично представить мяч с формой коллизии круга вместо AABB. По этой причине мы включили переменную radius в объект мяча. Чтобы определить форму столкновения окружности, нам нужен только вектор положения и радиус.
 
 ![](3.png)
 
-This does mean we have to update the detection algorithm since it currently only works between two AABBs. Detecting collisions between a circle and a rectangle is a bit more complicated, but the trick is as follows: we find the point on the AABB that is closest to the circle, and if the distance from the circle to this point is less than its radius, we have a collision.
+Это означает, что мы должны обновить алгоритм обнаружения, поскольку в настоящее время он работает только между двумя AABB. Обнаружение столкновений между окружностью и прямоугольником несколько сложнее, но суть в следующем: мы находим точку на AABB, которая ближе всего к окружности, и если расстояние от окружности до этой точки меньше ее радиуса, мы имеем столкновение.
 
-The difficult part is getting this closest point P on the AABB. The following image shows how we can calculate this point for any arbitrary AABB and circle:
+Самое сложное - это получить эту ближайшую точку Р в AABB. Следующее изображение показывает, как мы можем рассчитать эту точку для любого произвольного AABB и окружности:
 
 ![](4.png)
 
-We first need to get the difference vector between the ball's center C and the AABB's center B to obtain D. What we then need to do is clamp this vector D to the AABB's half-extents w and h¯ and add it to B. The half-extents of a rectangle are the distances between the rectangle's center and its edges: its size divided by two. This returns a position vector that is always located somewhere at the edge of the AABB (unless the circle's center is inside the AABB).
+Сначала нам нужно получить вектор разности между центром шара С и центром В AABB, чтобы получить D. Что нам нужно сделать, так это привести этот вектор D к AABB w и h и добавить его к B. Половина прямоугольника - это расстояния между центром прямоугольника и его рёбрами: его размер делится на два. Это возвращает вектор положения, который всегда находится где-то на краю AABB \(если только центр окружности не находится внутри AABB\).
 
-> A clamp operation **clamps** a value to a value within a given range. This is often expressed as:
+> Функция **clamps** для преобразования значения к значению в определенном диапазоне. Это выглядит так:
 > 
 > ```cpp
 > float clamp(float value, float min, float max) {
@@ -110,45 +110,45 @@ We first need to get the difference vector between the ball's center C and the A
 > }  
 > ```
 >
-> For example, a value of 42.0f is clamped to 6.0f with a range of 3.0f to 6.0f, and a value of 4.20f would be clamped to 4.20f.
-> Clamping a 2D vector means we clamp both its x and its y component within the given range.
+> например, значение 42.0f приводится к значению 6.0f в диапазоне от 3.0f до 6.0f, а значение 4.20f к 4.20f.
+> преобразование 2D вектора означает что мы преобразуем обе компонеты x и y внутри диапазона.
 
-This clamped vector P is then the closest point from the AABB to the circle. What we then need to do is calculate a new difference vector D that is the difference between the circle's center C and the vector P.
+Этот преобразованный вектор Р является ближайшей точкой от AABB до окружности. Тогда нам нужно вычислить новый вектор D, который является разностью между центром окружности С и вектором Р.
 
 ![](5.png)
 
-Now that we have the vector D, we can compare its length to the radius of the circle. If the length of D is less than the circle's radius, we have a collision.
+Теперь, когда у нас есть вектор D, мы можем сравнить его длину с радиусом круга. Если длина D меньше радиуса круга, происходит коллизия.
 
-This is all expressed in code as follows:
+В коде это будет выглядеть так:
 
 ```cpp
-bool CheckCollision(BallObject &one, GameObject &two) // AABB - Circle collision
+bool CheckCollision(BallObject &one, GameObject &two) // AABB - круг коллизии
 {
-    // get center point circle first 
+    // сначала получаем центр круга 
     glm::vec2 center(one.Position + one.Radius);
-    // calculate AABB info (center, half-extents)
+    // рассчитываем AABB информацию (центр, половинные размеры)
     glm::vec2 aabb_half_extents(two.Size.x / 2.0f, two.Size.y / 2.0f);
     glm::vec2 aabb_center(
         two.Position.x + aabb_half_extents.x, 
         two.Position.y + aabb_half_extents.y
     );
-    // get difference vector between both centers
+    // получаем вектор разницы между обоими центрами
     glm::vec2 difference = center - aabb_center;
     glm::vec2 clamped = glm::clamp(difference, -aabb_half_extents, aabb_half_extents);
-    // add clamped value to AABB_center and we get the value of box closest to circle
+    // добавляем фиксированное значение к AABB_center и получаем значение поля, ближайшего к кругу
     glm::vec2 closest = aabb_center + clamped;
-    // retrieve vector between center circle and closest point AABB and check if length <= radius
+    // получаем вектор между центральным кругом и ближайшей точкой AABB и проверяем, если длина <= радиус
     difference = closest - center;
     return glm::length(difference) < one.Radius;
 }      
 ```
 
-We create an overloaded function for *CheckCollision* that specifically deals with the case between a *BallObject* and a *GameObject*. Because we did not store the collision shape information in the objects themselves we have to calculate them: first the center of the ball is calculated, then the AABB's half-extents and its center.
+Перегружаем функцию *CheckCollision* которая выступает связующим между *BallObject* и *GameObject*. Поскольку мы не хранили информацию о форме коллизий в самих объектах, мы должны рассчитать их: сначала рассчитывается центр мяча, затем полурасширение AABB и его центр.
 
-Using these collision shape attributes we calculate vector D as difference that we clamp to clamped and add to the AABB's center to get point P as closest. Then we calculate the difference vector D between center and closest and return whether the two shapes collided or not.
+Используя эти атрибуты формы коллизии, мы рассчитываем вектор D как разность, которую  добавляем в центр AABB, чтобы получить точку P как ближайшую. Затем мы вычисляем вектор D между центром и ближайшим и возвращаем значение функции независимо от того, столкнутся эти две фигуры или нет.
 
-Since we previously called *CheckCollision* with the ball object as its first argument, we do not have to change any code since the overloaded version of *CheckCollision* now automatically applies. The result is now a much more precise collision detection algorithm:
+ак как ранее мы вызывали *Checkcollision* с объектом мяча в качестве первого аргумента, нам не нужно изменять какой-либо код, так как перегруженная версия *Checkcollision* теперь применяется автоматически. В настоящее время результатом является более точный алгоритм обнаружения столкновений:
 
 [collisions_circle.mp4](collisions_circle.mp4)
 
-It seems to work, but still, something is off. We properly do all the collision detection, but the ball does not react in any way to the collisions. We need to update the ball's position and/or velocity whenever a collision occurs. This is the topic of the [next](../paragraph%203/text.md) chapter. 
+Кажется, это работает, но все же что-то не так. Мы правильно делаем все обнаружение коллизии, но шар никак не реагирует на столкновения. Нам нужно обновить положение шара и\/или скорость при столкновении. Но это уже тема [следующей](../paragraph%203/text.md) главы. 
