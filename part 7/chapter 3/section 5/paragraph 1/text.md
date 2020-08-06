@@ -1,16 +1,16 @@
-# Ball
+# Мяч
 
-At this point we have a level full of bricks and a movable player paddle. The only thing missing from the classic Breakout recipe is the ball. The objective is to let the ball collide with all the bricks until each of the destroyable bricks are destroyed, but this all within the condition that the ball is not allowed to reach the bottom edge of the screen.
+На данный момент у нас есть уровень,состоящий из кирпичей и подвижной платформы. Единственное, чего не хватает для классического Арканоида, это мяча. Цель игры - разрушить все кирпичи, и не дать мячу достигнуть нижнего края экрана.
 
-In addition to the general game object components, a ball has a radius, and an extra boolean value indicating whether the ball is stuck on the player paddle or it's allowed free movement. When the game starts, the ball is initially stuck on the player paddle until the player starts the game by pressing some arbitrary key.
+В дополнение к основным игровым компонентам, мяч имеет радиус, и дополнительные значения типа bool которые показывают где находиться мяч: на игровой платформе или в свободном движении. В начале игры мяч изначально находиться на платформе пока игрок не нажмет какую либо произвольную кнопку для начала игры.
 
-Because the ball is effectively a *GameObject* with a few extra properties it makes sense to create a *BallObject* class as a subclass of *GameObject*:
+Поскольку мяч фактически это объект класса *GameObject* с несколькими допролнительными свойствами имеет смылс создать класс *BallObject* в качестве подкласса *GameObject*:
 
 ```cpp
 class BallObject : public GameObject
 {
     public:
-        // ball state	
+        // состояние мяча	
         float     Radius;
         bool      Stuck;
   
@@ -23,12 +23,12 @@ class BallObject : public GameObject
 }; 
 ```
 
-The constructor of *BallObject* initializes its own values, but also initializes the underlying *GameObject*. The *BallObject* class hosts a *Move* function that moves the ball based on its velocity. It also checks if it reaches any of the scene's edges and if so, reverses the ball's velocity:
+В конструкторе класса *BallObject* инициализируются локальные переменные, а также основной объект класса *GameObject*. Класс *BallObject* содержит функцию *Move* которая передвигает мяч в зависимости от скорости.  Также эта функция проверяет коснулся ли мяч какой либо части экрана и если да, то меняет его скорость:
 
 ```cpp
 glm::vec2 BallObject::Move(float dt, unsigned int window_width)
 {
-    // if not stuck to player board
+    // если не прилип к платформе игрока
     if (!this->Stuck)
     { 
         // move the ball
@@ -55,15 +55,15 @@ glm::vec2 BallObject::Move(float dt, unsigned int window_width)
 }  
 ```
 
-In addition to reversing the ball's velocity, we also want relocate the ball back along the edge; the ball is only able to move if it isn't stuck.
+В добавок к изменению скорости мяча, мы также хотим перемещать мяч по краям; мяч может двигаться толко если он в игре.
 
-> Because the player is game over \(or loses a life\) if the ball reaches the bottom edge, there is no code to let the ball bounce of the bottom edge. We do need to later implement this logic somewhere in the game code though.
+> Поскольку игра окончена \(или жизнь потреряна\) когда мяч косается нижней границы игрового поля, у нас нет кода который позволяет мячу отталкиваться от нижней части игрового поля. хотя позже мы должны будем реализовать эту логику в некоторых случаях.
 
-You can find the code for the ball object below:
+Код объекта мяч приведен здесь:
 
 - BallObject: [header](ball_object_collisions.h), [code](ball_object_collisions.cpp)
 
-First, let's add the ball to the game. Just like the player paddle, we create a BallObject and define two constants that we use to initialize the ball. As for the texture of the ball, we're going to use an image that makes perfect sense in a LearnOpenGL Breakout game: [ball texture](awesomeface.png).
+Для начала давайте добавим мяч в игру. по аналагии как мы это делали с платформой, создаем объект класса BallObject и определяем две константы которые используем для инициализации мяча. В качестве текстуры мяча, мы будем использовать изображение: [ball texture](awesomeface.png).
 
 ```cpp
 // Initial velocity of the Ball
@@ -83,7 +83,7 @@ void Game::Init()
 }
 ```
 
-Then we have to update the position of the ball each frame by calling its Move function within the game code's Update function:
+Затем мы должны покадрово обновлять положение мяча вызываю функцию Move из функции Update:
 
 ```cpp
 void Game::Update(float dt)
@@ -92,7 +92,7 @@ void Game::Update(float dt)
 }  
 ```
 
-Furthermore, because the ball is initially stuck to the paddle, we have to give the player the ability to remove it from its stuck position. We select the space key for freeing the ball from the paddle. This means we have to change the *processInput* function a little:
+также, поскольку мяч изначально находится на поверхности ракетки, мы должны дать возможность игроку запустить мяч в игру - для этого будем использовать клавишу пробел. Это означает что нам нужно немного изменить код функции  *processInput*:
 
 ```cpp
 void Game::ProcessInput(float dt)
@@ -125,9 +125,9 @@ void Game::ProcessInput(float dt)
 }
 ```
 
-Here, if the user presses the space bar, the ball's Stuck variable is set to false. Note that we also move the position of the ball alongside the paddle's position whenever the ball is stuck.
+Далее, если игрок нажимает пробел, переменная начала игры меняет состояние на false. Учтите что мы также двигаем положение мяча  по отношению к платформе когда мяч останавливается
 
-Last, we need to render the ball which by now should be fairly obvious:
+В итоге, нам нужно отрисовать мяч:
 
 ```cpp
 void Game::Render()
@@ -140,8 +140,8 @@ void Game::Render()
 }  
 ```
 
-The result is a ball that follows the paddle and roams freely whenever we press the spacebar. The ball also properly bounces of the left, right, and top edge, but it doesn't yet seem to collide with any of the bricks as we can see:
+В результате мы получаем мяч который передвигается вместе с платформой и отталкивается при нажатии пробела. Мяч также соответствующим образом отталкивается от левой, правой, и верхней границ, но как мы видим его еще нужно научить разрушать кирпичи:
 
 [no_collisions.mp4](no_collisions.mp4)
 
-What we want is to create one or several function\(s\) that check if the ball object is colliding with any of the bricks in the level and if so, destroy the brick. These so called collision detection functions is what we'll focus on in the [next](../paragraph%202/text.md) chapter.
+То что мы хотим сделать это создать одну или несколько функций которые будут проверять разрушил ли мяч какие либо кирпичи в текущем уровне и если да, то уничтожать кирпич. На функции определения разрушений мы остановимся в [последующих](../paragraph%202/text.md) уроках.
